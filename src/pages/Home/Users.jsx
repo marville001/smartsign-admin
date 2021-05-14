@@ -1,13 +1,113 @@
-import React from 'react'
-import Breadcrumb from '../../components/Breadcrumb'
+import {
+  Container,
+  makeStyles,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Link,
+} from "@material-ui/core";
+import React from "react";
+import Breadcrumb from "../../components/Breadcrumb";
+import Title from "../../components/Title";
 
-const Users = () => {
-    return (
-        <div>
-            <Breadcrumb content="Users" />
-            <h4>Users</h4>
-        </div>
-    )
+const useStyles = makeStyles((theme) => ({
+  container: {
+    padding: "20px",
+  },
+  seeMore: {
+    marginTop: theme.spacing(3),
+  },
+}));
+
+function createData(id, date, name, shipTo, paymentMethod, amount) {
+  return { id, date, name, shipTo, paymentMethod, amount };
 }
 
-export default Users
+const rows = [
+  createData(
+    0,
+    "16 Mar, 2019",
+    "Elvis Presley",
+    "Tupelo, MS",
+    "VISA ⠀•••• 3719",
+    312.44
+  ),
+  createData(
+    1,
+    "16 Mar, 2019",
+    "Paul McCartney",
+    "London, UK",
+    "VISA ⠀•••• 2574",
+    866.99
+  ),
+  createData(
+    2,
+    "16 Mar, 2019",
+    "Tom Scholz",
+    "Boston, MA",
+    "MC ⠀•••• 1253",
+    100.81
+  ),
+  createData(
+    3,
+    "16 Mar, 2019",
+    "Michael Jackson",
+    "Gary, IN",
+    "AMEX ⠀•••• 2000",
+    654.39
+  ),
+  createData(
+    4,
+    "15 Mar, 2019",
+    "Bruce Springsteen",
+    "Long Branch, NJ",
+    "VISA ⠀•••• 5919",
+    212.79
+  ),
+];
+
+function preventDefault(event) {
+  event.preventDefault();
+}
+const Users = () => {
+  const classes = useStyles();
+  return (
+    <div>
+      <Breadcrumb content="Users" />
+      <Container className={classes.container}>
+        <Title>All Users</Title>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Date</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Ship To</TableCell>
+              <TableCell>Payment Method</TableCell>
+              <TableCell align="right">Sale Amount</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell>{row.date}</TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.shipTo}</TableCell>
+                <TableCell>{row.paymentMethod}</TableCell>
+                <TableCell align="right">{row.amount}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <div className={classes.seeMore}>
+          <Link color="primary" href="#" onClick={preventDefault}>
+            See more orders
+          </Link>
+        </div>
+      </Container>
+    </div>
+  );
+};
+
+export default Users;
