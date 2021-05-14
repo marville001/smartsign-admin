@@ -12,29 +12,31 @@ const useStyles = makeStyles(() => ({
   },
   cards: {
     display: "flex",
-    flexDirection:"row"
+    flexWrap: "wrap",
   },
-  card:{
-      width:"150px"
-  }
+  card: {
+    width: "150px",
+    margin:"10px 5px"
+  },
 }));
 
 const Dashboard = () => {
   const classes = useStyles();
+
+  const renderCard = () => (
+    <Card className={classes.card}>
+      <h4>hello</h4>
+    </Card>
+  );
+
   return (
     <div>
       <Breadcrumb content="/Dashboard/" />
       <Container className={classes.container}>
-        <div className="cards">
-          <Card className={classes.card}>
-            <h4>hello</h4>
-          </Card>
-          <Card>
-            <h4>hello</h4>
-          </Card>
-          <Card>
-            <h4>hello</h4>
-          </Card>
+        <div className={classes.cards}>
+          {renderCard()}
+          {renderCard()}
+          {renderCard()}
         </div>
       </Container>
     </div>
