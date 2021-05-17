@@ -7,9 +7,10 @@ import {
   makeStyles,
   TextField,
 } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import Breadcrumb from "../../components/Breadcrumb";
 import Title from "../../components/Title";
+import _app from "../../firebase";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -19,11 +20,64 @@ const useStyles = makeStyles(() => ({
 
 const AddUser = () => {
   const classes = useStyles();
+
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
+  const [email, setEmail] = useState("");
+  const [idno, setIdno] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
+  const [active, setActive] = useState(false);
+
+  const [error, setError] = useState("");
+  const updateError = (error) => {
+    setError(error);
+    setTimeout(() => {
+      setError("");
+    }, 5000);
+  };
+
+  const handleAddUser = () => {
+    if (
+      fName == "" ||
+      lName == "" ||
+      email == "" ||
+      password == "" ||
+      idno == "" ||
+      role == ""
+    ) {
+      updateError("All fields are required");
+    } else if (
+      !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+        email
+      )
+    ) {
+      updateError("Invalid email");
+    } else if (password.length < 8) {
+      updateError("Password should be 8 characters or more");
+    } else if (idno.length < 8) {
+      updateError("Id number should be 8 characters");
+    } else {
+      addSubmit();
+    }
+  };
+
+  
+  const usersRef = _app.database().ref("Users");
+  console.log(usersRef);
+  
+  const generateUserDocument = () => {};
+  
+  const addSubmit = () => {
+    console.log(fName, lName, email, password, idno, role, active);
+  };
+
   return (
     <div>
       <Breadcrumb content="New User" />
       <Container className={classes.container}>
         <Title>Add New User</Title>
+        {error && <div className="error">{error}</div>}
         <Grid container spacing={3} md={8}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -34,6 +88,8 @@ const AddUser = () => {
               label="First name"
               fullWidth
               autoComplete="first-name"
+              value={fName}
+              onChange={(e) => setFName(e.target.value)}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -44,6 +100,8 @@ const AddUser = () => {
               variant="outlined"
               label="Last name"
               fullWidth
+              value={lName}
+              onChange={(e) => setLName(e.target.value)}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -55,6 +113,8 @@ const AddUser = () => {
               variant="outlined"
               label="Enter Email"
               fullWidth
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -66,6 +126,8 @@ const AddUser = () => {
               label="ID Number"
               type="number"
               fullWidth
+              value={idno}
+              onChange={(e) => setIdno(e.target.value)}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -76,30 +138,51 @@ const AddUser = () => {
               label="Password"
               type="password"
               fullWidth
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               required
-              id="zip"
-              name="zip"
-              label="Zip / Postal code"
+              id="role"
+              name="role"
+              select
+              label="Select Role"
               variant="outlined"
               fullWidth
-            />
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              SelectProps={{
+                native: true,
+              }}
+            >
+              <option></option>
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </TextField>
           </Grid>
           <Grid item xs={12}>
             <FormControlLabel
-              control={<Checkbox color="secondary" name="active" value="yes" />}
+              control={
+                <Checkbox
+                  value={active}
+                  onChange={(e) => setActive(e.target.checked)}
+                  color="secondary"
+                  name="active"
+                  value="yes"
+                />
+              }
               label="Active"
             />
           </Grid>
-          
+
           <Grid item xs={12} sm={6}>
             <Button
               variant="contained"
               color={"primary"}
               style={{ width: "100%" }}
+              onClick={handleAddUser}
             >
               Add User
             </Button>

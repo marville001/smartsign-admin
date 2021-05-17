@@ -16,3 +16,14 @@ a {
 .makeStyles-loginBtn-87:active {
   background-color: #1b1f23 !important;
 }
+
+
+.error{
+  padding: 10px 15px;
+  background: rgb(139, 85, 85);
+  color: #fff;
+  margin-bottom: 5px;
+  font-size: 17px;
+  text-align: center;
+  border-radius: 10px;
+}

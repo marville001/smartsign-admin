@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Switch, Route,Redirect } from "react-router-dom";
+import { AuthContext } from "../../AuthContext";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
 
@@ -17,9 +18,19 @@ const Dashboard = React.lazy(() => import("./Dashboard"));
 const Users = React.lazy(() => import("./Users"));
 const AddUser = React.lazy(() => import("./AddUser"));
 
-const Index = () => {
+const Index = ({history}) => {
+
   const classes = useStyles();
   const [menuOpen, setMenuOpen] = useState(true);
+
+  const {user} = useContext(AuthContext);
+
+  useEffect(()=>{
+    if(!user.uid){
+      // history.push("/login")
+    }
+  },[])
+
   return (
     <div className={classes.root}>
       <Sidebar menuOpen={menuOpen} />
