@@ -1,6 +1,6 @@
 import { Button, Container, makeStyles, TextField } from "@material-ui/core";
 import React, { useState } from "react";
-import _app from "../firebase";
+import {auth} from "../firebase";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -66,7 +66,7 @@ const Login = ({ history }) => {
   const handleLogin = async () => {
     console.log(email, password);
     try {
-      await _app.auth().signInWithEmailAndPassword(email, password);
+      await auth.signInWithEmailAndPassword(email, password);
       history.push("/");
     } catch (error) {
       console.log(error.code);

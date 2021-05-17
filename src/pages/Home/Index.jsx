@@ -1,9 +1,10 @@
 import { makeStyles } from "@material-ui/core";
 import React, { useContext, useEffect, useState } from "react";
-import { Switch, Route,Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { AuthContext } from "../../AuthContext";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
+import { db } from "../../firebase";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -18,18 +19,30 @@ const Dashboard = React.lazy(() => import("./Dashboard"));
 const Users = React.lazy(() => import("./Users"));
 const AddUser = React.lazy(() => import("./AddUser"));
 
-const Index = ({history}) => {
-
+const Index = ({ history }) => {
   const classes = useStyles();
   const [menuOpen, setMenuOpen] = useState(true);
 
-  const {user} = useContext(AuthContext);
+  const { user, setUsers } = useContext(AuthContext);
 
-  useEffect(()=>{
-    if(!user.uid){
-      // history.push("/login")
+  useEffect(() => {
+    if (!user) {
+      history.push("/login");
     }
-  },[])
+  }, [user]);
+
+  useEffect(() => {
+    const usersRef = db.ref("Users");
+    usersRef.on("value", (snapshot) => {
+      const users = snapshot.val();
+      const usersList = [];
+      for (let id in users) {
+        usersList.push({ id, ...users[id] });
+      }
+      setUsers(usersList);
+      console.log(usersList);
+    });
+  }, []);
 
   return (
     <div className={classes.root}>

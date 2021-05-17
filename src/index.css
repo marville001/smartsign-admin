@@ -22,7 +22,17 @@ a {
   padding: 10px 15px;
   background: rgb(139, 85, 85);
   color: #fff;
-  margin-bottom: 5px;
+  margin: 20px 10px;
+  font-size: 17px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.confirm{
+  padding: 10px 15px;
+  background: rgb(165, 233, 126);
+  color: #fff;
+  margin: 20px 10px;
   font-size: 17px;
   text-align: center;
   border-radius: 10px;

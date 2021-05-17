@@ -9,6 +9,8 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 
+import { auth } from "../firebase";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#fff",
@@ -18,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    color:"#000"
+    color: "#000",
   },
 }));
 
@@ -33,6 +35,11 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    handleClose();
+    auth.signOut();
   };
 
   const renderAccountMenu = () => (
@@ -52,7 +59,7 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
       onClose={handleClose}
     >
       <MenuItem onClick={handleClose}>Profile</MenuItem>
-      <MenuItem onClick={handleClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogout}>Log Out</MenuItem>
     </Menu>
   );
 

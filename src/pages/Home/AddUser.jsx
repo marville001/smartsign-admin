@@ -10,7 +10,7 @@ import {
 import React, { useState } from "react";
 import Breadcrumb from "../../components/Breadcrumb";
 import Title from "../../components/Title";
-import _app from "../../firebase";
+import { auth, db } from "../../firebase";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -29,7 +29,9 @@ const AddUser = () => {
   const [role, setRole] = useState("");
   const [active, setActive] = useState(false);
 
+  const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
+
   const updateError = (error) => {
     setError(error);
     setTimeout(() => {
@@ -62,14 +64,51 @@ const AddUser = () => {
     }
   };
 
-  
-  const usersRef = _app.database().ref("Users");
-  console.log(usersRef);
-  
-  const generateUserDocument = () => {};
-  
-  const addSubmit = () => {
-    console.log(fName, lName, email, password, idno, role, active);
+  const generateUserDocument = (user) => {
+    if (!user) return;
+    const uid = user.uid;
+    const userRef = db.ref("Users").child(uid);
+
+    const _user = {
+      email,
+      firstname: fName,
+      lastname: lName,
+      idNumber: idno,
+      role,
+      status: active ? "active" : "not active",
+      date: new Date(),
+    };
+
+    userRef.set(_user);
+  };
+
+  const addSubmit = async () => {
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      generateUserDocument(user);
+
+      showConfirmed("User Added Successfully");
+
+      setFName("");
+      setLName("");
+      setEmail("");
+      setIdno("");
+      setPassword("");
+      setRole("");
+      setActive(false);
+    } catch (error) {
+      updateError(error.message);
+    }
+  };
+
+  const showConfirmed = (msg) => {
+    setConfirm(msg);
+    setTimeout(() => {
+      setConfirm("");
+    }, 5000);
   };
 
   return (
@@ -78,6 +117,7 @@ const AddUser = () => {
       <Container className={classes.container}>
         <Title>Add New User</Title>
         {error && <div className="error">{error}</div>}
+        {confirm && <div className="confirm">{confirm}</div>}
         <Grid container spacing={3} md={8}>
           <Grid item xs={12} sm={6}>
             <TextField

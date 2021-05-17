@@ -8,7 +8,8 @@ import {
   TableBody,
   Link,
 } from "@material-ui/core";
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../../AuthContext";
 import Breadcrumb from "../../components/Breadcrumb";
 import Title from "../../components/Title";
 
@@ -16,63 +17,29 @@ const useStyles = makeStyles((theme) => ({
   container: {
     padding: "20px",
   },
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
 }));
 
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-  createData(
-    0,
-    "16 Mar, 2019",
-    "Elvis Presley",
-    "Tupelo, MS",
-    "VISA ⠀•••• 3719",
-    312.44
-  ),
-  createData(
-    1,
-    "16 Mar, 2019",
-    "Paul McCartney",
-    "London, UK",
-    "VISA ⠀•••• 2574",
-    866.99
-  ),
-  createData(
-    2,
-    "16 Mar, 2019",
-    "Tom Scholz",
-    "Boston, MA",
-    "MC ⠀•••• 1253",
-    100.81
-  ),
-  createData(
-    3,
-    "16 Mar, 2019",
-    "Michael Jackson",
-    "Gary, IN",
-    "AMEX ⠀•••• 2000",
-    654.39
-  ),
-  createData(
-    4,
-    "15 Mar, 2019",
-    "Bruce Springsteen",
-    "Long Branch, NJ",
-    "VISA ⠀•••• 5919",
-    212.79
-  ),
-];
-
-function preventDefault(event) {
-  event.preventDefault();
-}
 const Users = () => {
   const classes = useStyles();
+
+  const { users } = useContext(AuthContext);
+
+  const extractDate = (d) => {
+    const date = new Date(d);
+    console.log(date);
+
+    const year = date.getFullYear();
+    let month = date.getMonth()+1;
+    let day = date.getDate();
+
+    month = month <= 9 ? `0${month}` : month;
+    day = day <= 9 ? `0${day}` : day;
+
+    console.log(year,month,day);
+
+    return `${year}-${month}-${day}`;
+  };
+
   return (
     <div>
       <Breadcrumb content="Users" />
@@ -81,30 +48,33 @@ const Users = () => {
         <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Ship To</TableCell>
-              <TableCell>Payment Method</TableCell>
-              <TableCell align="right">Sale Amount</TableCell>
+              <TableCell>#</TableCell>
+              <TableCell>Firstname</TableCell>
+              <TableCell>Lastname</TableCell>
+              <TableCell>email</TableCell>
+              <TableCell>ID Number</TableCell>
+              <TableCell>role</TableCell>
+              <TableCell>status</TableCell>
+              <TableCell>Date Added</TableCell>
+              <TableCell align="right">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell>{row.date}</TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.shipTo}</TableCell>
-                <TableCell>{row.paymentMethod}</TableCell>
-                <TableCell align="right">{row.amount}</TableCell>
+            {users.map((user, i) => (
+              <TableRow key={user.id}>
+                <TableCell>{i+1}</TableCell>
+                <TableCell>{user.firstname}</TableCell>
+                <TableCell>{user.lastname}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.idNumber}</TableCell>
+                <TableCell>{user.role}</TableCell>
+                <TableCell>{user.status}</TableCell>
+                <TableCell>{extractDate(user.date)}</TableCell>
+                <TableCell align="right"> </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-        <div className={classes.seeMore}>
-          <Link color="primary" href="#" onClick={preventDefault}>
-            See more orders
-          </Link>
-        </div>
       </Container>
     </div>
   );

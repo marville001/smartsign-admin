@@ -7,6 +7,9 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import Breadcrumb from "../../components/Breadcrumb";
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import EmojiTransportationIcon from '@material-ui/icons/EmojiTransportation';
+import InputIcon from '@material-ui/icons/Input';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -17,7 +20,7 @@ const useStyles = makeStyles(() => ({
     flexWrap: "wrap",
   },
   card: {
-    minWidth: "150px",
+    minWidth: "250px",
     margin: "10px 5px",
     display: "flex",
     alignItems: "center",
@@ -28,7 +31,8 @@ const useStyles = makeStyles(() => ({
     height: "60px",
     backgroundColor: "#eee",
     margin: "20px 10px",
-    cursor:"default"
+    cursor:"default",
+    marginRight:"20px"
   },
 }));
 
@@ -65,21 +69,23 @@ const Dashboard = () => {
           iconColor="purple" 
           title="Total Users"
           count={200}
-          CardIcon={<Icon>add_circle</Icon>}
+          CardIcon={<SupervisorAccountIcon />}
           />
+
           <TopCard 
           classes={classes} 
           iconColor="purple" 
-          title="Total Users"
+          title="Total Vehicles"
           count={200}
-          CardIcon={<Icon>add_circle</Icon>}
+          CardIcon={<EmojiTransportationIcon />}
           />
+
           <TopCard 
           classes={classes} 
           iconColor="purple" 
-          title="Total Users"
+          title="Total Signin Today"
           count={200}
-          CardIcon={<Icon>add_circle</Icon>}
+          CardIcon={<InputIcon />}
           />
         </div>
       </Container>

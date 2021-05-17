@@ -1,22 +1,26 @@
 import { useState, createContext, useCallback, useEffect } from "react";
-import _app from "./firebase.js";
+import { auth } from "./firebase.js";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children, history }) => {
-  const [user, setuser] = useState({name:"Martin"});
-  // const [pending, setPending] = useState(false);
+  const [user, setUser] = useState();
+  const [users, setUsers] = useState([]);
+  const [pending, setPending] = useState(true);
   const value = {
-    user
-  }
-
+    user,
+    users,
+    setUsers,
+  };
 
   useEffect(() => {
-    _app.auth().onAuthStateChanged((user) => {
-      setuser(user)
-      // setPending(false)
+    auth.onAuthStateChanged((user) => {
+      setUser(user);
+      setPending(false);
     });
   }, []);
+
+  if (pending) return null;
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
