@@ -41,7 +41,7 @@ const Login = ({ history }) => {
   const [error, setError] = useState("");
 
   const loginSubmit = () => {
-    if (email == "" || password == "") {
+    if (email === "" || password === "") {
       updateError("All fields are required");
     } else if (
       !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(

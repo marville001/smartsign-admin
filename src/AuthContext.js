@@ -7,6 +7,7 @@ const AuthProvider = ({ children, history }) => {
   const [user, setUser] = useState();
   const [users, setUsers] = useState([]);
   const [pending, setPending] = useState(true);
+  
   const value = {
     user,
     users,
@@ -20,7 +21,7 @@ const AuthProvider = ({ children, history }) => {
     });
   }, []);
 
-  if (pending) return null;
+  if (pending) return <div>Loading...</div>;
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
