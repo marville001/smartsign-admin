@@ -100,7 +100,7 @@ const Login = ({ history }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <a href="#" style={{ display: "block", textAlign: "right" }}>
+          <a href="#/forgot-password" style={{ display: "block", textAlign: "right" }}>
             Forgot password?
           </a>
           <Button

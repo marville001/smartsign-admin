@@ -77,7 +77,10 @@ const Sidebar = ({ menuOpen }) => {
       <List component="nav">
         <MenuItem name="Dashboard" to="/" icon={MenuIcon} classes={classes} />
         <MenuItem name="Users" to="/users" icon={MenuIcon} classes={classes} />
-        <MenuItem name="Profile" to="/users/new" icon={AccountCircleIcon} classes={classes} />
+        <MenuItem name="Profile" to="/users/profile" icon={AccountCircleIcon} classes={classes} />
+        <MenuItem name="Reports" to="/reports" icon={AccountCircleIcon} classes={classes} />
+        <MenuItem name="Vehicles" to="/vehicles" icon={AccountCircleIcon} classes={classes} />
+        <MenuItem name="Vehicle Signin" to="/vehicles/signin" icon={AccountCircleIcon} classes={classes} />
       </List>
     </div>
   );

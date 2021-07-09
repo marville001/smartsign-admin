@@ -41,12 +41,12 @@ const AddUser = () => {
 
   const handleAddUser = () => {
     if (
-      fName == "" ||
-      lName == "" ||
-      email == "" ||
-      password == "" ||
-      idno == "" ||
-      role == ""
+      fName === "" ||
+      lName === "" ||
+      email === "" ||
+      password === "" ||
+      idno === "" ||
+      role === ""
     ) {
       updateError("All fields are required");
     } else if (
@@ -69,6 +69,12 @@ const AddUser = () => {
     const uid = user.uid;
     const userRef = db.ref("Users").child(uid);
 
+    const date = new Date();
+
+    const year = date.getFullYear();
+    const month = date.getMonth()+1;
+    const day = date.getDay();
+
     const _user = {
       email,
       firstname: fName,
@@ -76,7 +82,7 @@ const AddUser = () => {
       idNumber: idno,
       role,
       status: active ? "active" : "not active",
-      date: new Date(),
+      date: `${year}-${month}-${day}`,
     };
 
     userRef.set(_user);
@@ -210,7 +216,6 @@ const AddUser = () => {
                   onChange={(e) => setActive(e.target.checked)}
                   color="secondary"
                   name="active"
-                  value="yes"
                 />
               }
               label="Active"

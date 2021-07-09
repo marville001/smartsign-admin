@@ -1,7 +1,6 @@
 import {
   Card,
   Container,
-  Icon,
   IconButton,
   makeStyles,
 } from "@material-ui/core";
@@ -68,7 +67,7 @@ const Dashboard = () => {
           classes={classes} 
           iconColor="purple" 
           title="Total Users"
-          count={200}
+          count={5}
           CardIcon={<SupervisorAccountIcon />}
           />
 
@@ -76,7 +75,7 @@ const Dashboard = () => {
           classes={classes} 
           iconColor="purple" 
           title="Total Vehicles"
-          count={200}
+          count={13}
           CardIcon={<EmojiTransportationIcon />}
           />
 
@@ -84,7 +83,7 @@ const Dashboard = () => {
           classes={classes} 
           iconColor="purple" 
           title="Total Signin Today"
-          count={200}
+          count={2}
           CardIcon={<InputIcon />}
           />
         </div>

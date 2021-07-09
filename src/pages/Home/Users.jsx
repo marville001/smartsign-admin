@@ -6,7 +6,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Link,
+
 } from "@material-ui/core";
 import React, { useContext } from "react";
 import { AuthContext } from "../../AuthContext";
@@ -29,13 +29,13 @@ const Users = () => {
     console.log(date);
 
     const year = date.getFullYear();
-    let month = date.getMonth()+1;
+    let month = date.getMonth() + 1;
     let day = date.getDate();
 
     month = month <= 9 ? `0${month}` : month;
     day = day <= 9 ? `0${day}` : day;
 
-    console.log(year,month,day);
+    console.log(year, month, day);
 
     return `${year}-${month}-${day}`;
   };
@@ -62,7 +62,7 @@ const Users = () => {
           <TableBody>
             {users.map((user, i) => (
               <TableRow key={user.id}>
-                <TableCell>{i+1}</TableCell>
+                <TableCell>{i + 1}</TableCell>
                 <TableCell>{user.firstname}</TableCell>
                 <TableCell>{user.lastname}</TableCell>
                 <TableCell>{user.email}</TableCell>
@@ -70,7 +70,9 @@ const Users = () => {
                 <TableCell>{user.role}</TableCell>
                 <TableCell>{user.status}</TableCell>
                 <TableCell>{extractDate(user.date)}</TableCell>
-                <TableCell align="right"> </TableCell>
+                <TableCell align="right">
+                  
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

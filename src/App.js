@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import ProtectedRoute from "./ProtectedRoute";
+import React from "react";
+import { Switch, Route } from "react-router-dom";
 
-import { AuthContext } from "./AuthContext";
 
 const Login = React.lazy(() => import("./pages/Login"));
 const Index = React.lazy(() => import("./pages/Home/Index"));
 
 const App = () => {
-  const { user } = useContext(AuthContext);
 
   return (
     <React.Suspense fallback={() => <div>Loading...</div>}>

@@ -12,23 +12,29 @@ const useStyles = makeStyles(() => ({
   },
   container: {
     flexGrow: 1,
-  },
+  }
 }));
 
 const Dashboard = React.lazy(() => import("./Dashboard"));
 const Users = React.lazy(() => import("./Users"));
 const AddUser = React.lazy(() => import("./AddUser"));
+const Profile = React.lazy(() => import("./Profile"));
+const Reports = React.lazy(() => import("./Reports"));
+const Vehicles = React.lazy(() => import("./Vehicles"));
+const VehicleSignIn = React.lazy(() => import("./VehicleSignIn"));
+const VehicleDetails = React.lazy(() => import("./VehicleDetails"));
 
 const Index = ({ history }) => {
   const classes = useStyles();
   const [menuOpen, setMenuOpen] = useState(true);
 
-  const { user, setUsers } = useContext(AuthContext);
+  const { user, setUsers, setVehicles } = useContext(AuthContext);
 
   useEffect(() => {
     if (!user) {
       history.push("/login");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   useEffect(() => {
@@ -40,8 +46,21 @@ const Index = ({ history }) => {
         usersList.push({ id, ...users[id] });
       }
       setUsers(usersList);
-      console.log(usersList);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const vehiclesRef = db.ref("Vehicles");
+    vehiclesRef.on("value", (snapshot) => {
+      const vehicles = snapshot.val();
+      const vehiclesList = [];
+      for (let id in vehicles) {
+        vehiclesList.push({ id, ...vehicles[id] });
+      }
+      setVehicles(vehiclesList);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -68,6 +87,36 @@ const Index = ({ history }) => {
               path="/users/new"
               name="Add User"
               render={(props) => <AddUser {...props} />}
+            />
+            <Route
+              exact
+              path="/users/profile"
+              name="Profile"
+              render={(props) => <Profile {...props} />}
+            />
+            <Route
+              exact
+              path="/reports"
+              name="Reports"
+              render={(props) => <Reports {...props} />}
+            />
+            <Route
+              exact
+              path="/vehicles"
+              name="Vehicles"
+              render={(props) => <Vehicles {...props} />}
+            />
+            <Route
+              exact
+              path="/vehicles/details/:id"
+              name="VehicleDetails"
+              render={(props) => <VehicleDetails {...props} />}
+            />
+            <Route
+              exact
+              path="/vehicles/signin"
+              name="VehicleSIgnIn"
+              render={(props) => <VehicleSignIn {...props} />}
             />
             <Redirect from="/home" to="/" />
           </Switch>
