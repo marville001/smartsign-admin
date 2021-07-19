@@ -6,8 +6,9 @@ import {
   TableRow,
   TableCell,
   TableBody,
-
+  Button,
 } from "@material-ui/core";
+import { DeleteOutline, EditOutlined } from "@material-ui/icons";
 import React, { useContext } from "react";
 import { AuthContext } from "../../AuthContext";
 import Breadcrumb from "../../components/Breadcrumb";
@@ -16,6 +17,19 @@ import Title from "../../components/Title";
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: "20px",
+  },
+  btns: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  deletebtn: {
+    color: "red",
+    cursor: "pointer",
+    marginLeft: "10px",
+  },
+  editbtn: {
+    color: "#000",
+    cursor: "pointer",
   },
 }));
 
@@ -38,6 +52,14 @@ const Users = () => {
     console.log(year, month, day);
 
     return `${year}-${month}-${day}`;
+  };
+
+  const handleDelete = (id) => {
+    alert("Do you want to delete");
+  };
+
+  const handleEdit = (id) => {
+    window.location.href = "/users/edit/" + id;
   };
 
   return (
@@ -70,8 +92,16 @@ const Users = () => {
                 <TableCell>{user.role}</TableCell>
                 <TableCell>{user.status}</TableCell>
                 <TableCell>{extractDate(user.date)}</TableCell>
-                <TableCell align="right">
-                  
+                <TableCell className={classes.btns} align="right">
+                  <EditOutlined
+                    onClick={() => handleEdit(user.id)}
+                    className={classes.editbtn}
+                  />
+                  <DeleteOutline
+                    className={classes.deletebtn}
+                    color="red"
+                    onClick={() => handleDelete(user.id)}
+                  />
                 </TableCell>
               </TableRow>
             ))}

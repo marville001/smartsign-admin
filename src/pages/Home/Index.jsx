@@ -23,6 +23,7 @@ const Reports = React.lazy(() => import("./Reports"));
 const Vehicles = React.lazy(() => import("./Vehicles"));
 const VehicleSignIn = React.lazy(() => import("./VehicleSignIn"));
 const VehicleDetails = React.lazy(() => import("./VehicleDetails"));
+const EditUser = React.lazy(() => import("./EditUser"));
 
 const Index = ({ history }) => {
   const classes = useStyles();
@@ -93,6 +94,12 @@ const Index = ({ history }) => {
               path="/users/profile"
               name="Profile"
               render={(props) => <Profile {...props} />}
+            />
+            <Route
+              exact
+              path="/users/edit/:id"
+              name="EditUser"
+              render={(props) => <EditUser {...props} />}
             />
             <Route
               exact
