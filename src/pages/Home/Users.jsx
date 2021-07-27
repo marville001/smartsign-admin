@@ -13,6 +13,7 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../AuthContext";
 import Breadcrumb from "../../components/Breadcrumb";
 import Title from "../../components/Title";
+import { auth, db } from "../../firebase";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -40,8 +41,6 @@ const Users = () => {
 
   const extractDate = (d) => {
     const date = new Date(d);
-    console.log(date);
-
     const year = date.getFullYear();
     let month = date.getMonth() + 1;
     let day = date.getDate();
@@ -49,13 +48,14 @@ const Users = () => {
     month = month <= 9 ? `0${month}` : month;
     day = day <= 9 ? `0${day}` : day;
 
-    console.log(year, month, day);
-
     return `${year}-${month}-${day}`;
   };
 
   const handleDelete = (id) => {
-    alert("Do you want to delete");
+    if (window.confirm("Do you want to delete")) {
+      let ref = db.ref(`Users/${id}/`);
+      ref.remove();
+    }
   };
 
   const handleEdit = (id) => {
@@ -82,29 +82,33 @@ const Users = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map((user, i) => (
-              <TableRow key={user.id}>
-                <TableCell>{i + 1}</TableCell>
-                <TableCell>{user.firstname}</TableCell>
-                <TableCell>{user.lastname}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.idNumber}</TableCell>
-                <TableCell>{user.role}</TableCell>
-                <TableCell>{user.status}</TableCell>
-                <TableCell>{extractDate(user.date)}</TableCell>
-                <TableCell className={classes.btns} align="right">
-                  <EditOutlined
-                    onClick={() => handleEdit(user.id)}
-                    className={classes.editbtn}
-                  />
-                  <DeleteOutline
-                    className={classes.deletebtn}
-                    color="red"
-                    onClick={() => handleDelete(user.id)}
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
+            {users
+              .filter((user) => {
+                return user.id !== auth.currentUser.uid;
+              })
+              .map((user, i) => (
+                <TableRow key={user.id}>
+                  <TableCell>{i + 1}</TableCell>
+                  <TableCell>{user.firstname}</TableCell>
+                  <TableCell>{user.lastname}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.idNumber}</TableCell>
+                  <TableCell>{user.role}</TableCell>
+                  <TableCell>{user.status}</TableCell>
+                  <TableCell>{extractDate(user.date)}</TableCell>
+                  <TableCell className={classes.btns} align="right">
+                    <EditOutlined
+                      onClick={() => handleEdit(user.id)}
+                      className={classes.editbtn}
+                    />
+                    <DeleteOutline
+                      className={classes.deletebtn}
+                      color="red"
+                      onClick={() => handleDelete(user.id)}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </Container>

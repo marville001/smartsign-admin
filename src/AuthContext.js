@@ -7,13 +7,17 @@ const AuthProvider = ({ children, history }) => {
   const [user, setUser] = useState();
   const [users, setUsers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
+  const [signedVehicles, setSignedVehicles] = useState([]);
   const [pending, setPending] = useState(true);
 
   const value = {
     user,
     users,
     setUsers,
-    vehicles, setVehicles
+    vehicles,
+    setVehicles,
+    setSignedVehicles,
+    signedVehicles
   };
 
   useEffect(() => {

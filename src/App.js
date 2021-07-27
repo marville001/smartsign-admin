@@ -1,20 +1,13 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Index from "./pages/Home/Index";
 
-
-const Login = React.lazy(() => import("./pages/Login"));
-const Index = React.lazy(() => import("./pages/Home/Index"));
-
-const App = () => {
-
-  return (
-    <React.Suspense fallback={() => <div>Loading...</div>}>
-      <Switch>
-        <Route exact path="/login" component={Login} />
-        <Route path="/" component={Index} />
-      </Switch>
-    </React.Suspense>
-  );
-};
+const App = () => (
+  <Switch>
+    <Route path="/" component={Index} />
+    <Route exact path="/login" component={Login} />
+  </Switch>
+);
 
 export default App;

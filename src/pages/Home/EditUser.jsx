@@ -27,32 +27,45 @@ const EditUser = (props) => {
   const id = props.match.params.id;
   const user = users.filter((user) => user.id === id)[0];
 
-
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
   const [idno, setIdno] = useState("");
   const [role, setRole] = useState("");
   const [active, setActive] = useState(false);
+  const [date, setDate] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
 
-  
   useEffect(() => {
-    setLoading(true);
     setFName(user?.firstname);
     setLName(user?.lastname);
     setEmail(user?.email);
     setIdno(user?.idNumber);
     setRole(user?.role);
+    setDate(user?.date);
     setActive(user?.status === "active" ? true : false);
-    setLoading(false)
-  }, []);
+  }, [user]);
 
   const handleEditUser = () => {
-    alert(id);
+    let ref = db.ref(`Users/${id}/`)
+    ref.set({
+      "date": date,
+      "email":email,
+      "firstname":fName,
+      "idNumber":idno,
+      "lastname":lName,
+      "role": role,
+      "status": active ? "active" : "not active",
+
+    }).then(()=>{
+      alert("User Updated Successfully")
+    }).catch(e=>{
+      alert("An error occured")
+    })
   };
 
   const showConfirmed = (msg) => {
@@ -61,12 +74,6 @@ const EditUser = (props) => {
       setConfirm("");
     }, 5000);
   };
-
-  if(user!= undefined && user.id != undefined){
-    return <h1>Loading....</h1>
-  }
-  
-  console.log("user: ", user);
   return (
     <div>
       <Breadcrumb content="New User" />
@@ -77,6 +84,7 @@ const EditUser = (props) => {
         <Grid container spacing={3} md={8}>
           <Grid item xs={12} sm={6}>
             <TextField
+              disabled
               required
               id="firstName"
               variant="outlined"
@@ -90,6 +98,7 @@ const EditUser = (props) => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
+              disabled
               required
               id="lastName"
               name="lastName"
@@ -102,6 +111,7 @@ const EditUser = (props) => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
+              disabled
               required
               id="email"
               name="email"
@@ -115,6 +125,7 @@ const EditUser = (props) => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
+              disabled
               required
               id="idno"
               name="idno"
