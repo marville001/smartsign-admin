@@ -5,8 +5,8 @@ import Index from "./pages/Home/Index";
 
 const App = () => (
   <Switch>
-    <Route path="/" component={Index} />
     <Route exact path="/login" component={Login} />
+    <Route path="/" component={Index} />
   </Switch>
 );
 

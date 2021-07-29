@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { AuthContext } from "../../AuthContext";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
-import { auth, db } from "../../firebase";
+import {  db } from "../../firebase";
 
 import Dashboard from "./Dashboard";
 import Users from "./Users";

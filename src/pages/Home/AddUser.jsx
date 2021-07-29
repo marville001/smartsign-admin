@@ -124,7 +124,7 @@ const AddUser = () => {
         <Title>Add New User</Title>
         {error && <div className="error">{error}</div>}
         {confirm && <div className="confirm">{confirm}</div>}
-        <Grid container spacing={3} md={8}>
+        <Grid container spacing={3} >
           <Grid item xs={12} sm={6}>
             <TextField
               required

@@ -12,7 +12,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../AuthContext";
 import Breadcrumb from "../../components/Breadcrumb";
 import Title from "../../components/Title";
-import { auth, db } from "../../firebase";
+import {  db } from "../../firebase";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -34,8 +34,6 @@ const EditUser = (props) => {
   const [role, setRole] = useState("");
   const [active, setActive] = useState(false);
   const [date, setDate] = useState("");
-
-  const [loading, setLoading] = useState(false);
 
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
@@ -65,6 +63,7 @@ const EditUser = (props) => {
       alert("User Updated Successfully")
     }).catch(e=>{
       alert("An error occured")
+      setError(error)
     })
   };
 
@@ -74,6 +73,8 @@ const EditUser = (props) => {
       setConfirm("");
     }, 5000);
   };
+
+  console.log(showConfirmed);
   return (
     <div>
       <Breadcrumb content="New User" />
@@ -81,7 +82,7 @@ const EditUser = (props) => {
         <Title>Edit User</Title>
         {error && <div className="error">{error}</div>}
         {confirm && <div className="confirm">{confirm}</div>}
-        <Grid container spacing={3} md={8}>
+        <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <TextField
               disabled
