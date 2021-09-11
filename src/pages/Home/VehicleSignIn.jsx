@@ -40,40 +40,46 @@ const useStyles = makeStyles((theme) => ({
 const VehicleSignIn = () => {
   const classes = useStyles();
   const [signedIn, setSignedIn] = useState(false);
-  const [records, setRecords] = useState([])
-  const [vType, setVType] = useState("")
+  const [records, setRecords] = useState([]);
+  const [vType, setVType] = useState("");
 
   const { signedVehicles } = useContext(AuthContext);
+  const [filteredVehicles, setFilteredVehicles] = useState(signedVehicles);
 
   const handleTypeChange = (event) => {
-    setSignedIn(false)
     let type = event.target.value;
-
-    setVType(type);
-    if(type === "" || type=== undefined){
-      setRecords(signedVehicles);
-    }else{
-      const r = signedVehicles.filter(r=>r.type===type)
-      setRecords(r)
-    }
+    setVType(type)
+    filterVehicleType(type)
   };
 
-  const handleSignedInChange = ()=>{
-    setSignedIn(!signedIn)
-    let s = !signedIn?"in":"out"
-    if(vType === "" || vType=== undefined){
-      const r = signedVehicles.filter(r=>r.status===s)
-      setRecords(r);
-    }else{
-      const r = signedVehicles.filter(r=>r.type===vType && r.status === s)
-      setRecords(r)
+  useEffect(() => {
+    setFilteredVehicles(signedVehicles);
+  }, [signedVehicles]);
+
+  const filterVehicleType = (t) => {
+    if (t === "all") {
+      return setFilteredVehicles(signedVehicles);
     }
-  }
 
-  useEffect(()=>{
-    setRecords(signedVehicles)
-  },[signedVehicles])
+    let tempVehicles = signedVehicles.filter((v) => {
+      return v.type === t;
+    });
+    setFilteredVehicles(tempVehicles);
+  };
 
+  const handleSignedInChange = () => {
+    const signed = !signedIn
+    setSignedIn(signed);
+    filterVehicleSigned(signed?"in":"out")
+  };
+
+   const filterVehicleSigned = (status) => {
+    let tempVehicles = filteredVehicles.filter((v) => {
+      return v.status === status;
+    });
+
+    setFilteredVehicles(tempVehicles);
+  };
 
   return (
     <div>
@@ -90,7 +96,7 @@ const VehicleSignIn = () => {
               value={vType}
               onChange={handleTypeChange}
             >
-              <MenuItem>Select Type</MenuItem>
+              <MenuItem value="all">All</MenuItem>
               <MenuItem value={"visitor"}>Visitor</MenuItem>
               <MenuItem value={"staff"}>Staff</MenuItem>
             </Select>
@@ -111,7 +117,7 @@ const VehicleSignIn = () => {
         <br />
 
         <TableContainer className={classes.tcontainer}>
-          <Table  stickyHeader aria-label="sticky table">
+          <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 <TableCell>#</TableCell>
@@ -125,7 +131,7 @@ const VehicleSignIn = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {records.map((vehicle, i) => (
+              {filteredVehicles.map((vehicle, i) => (
                 <TableRow key={vehicle.id}>
                   <TableCell>{i + 1}</TableCell>
                   <TableCell>{vehicle.driverName}</TableCell>
@@ -134,7 +140,7 @@ const VehicleSignIn = () => {
                   <TableCell>{vehicle.plate}</TableCell>
                   <TableCell>{vehicle.date}</TableCell>
                   <TableCell>{vehicle.status}</TableCell>
-                  <TableCell>{vehicle.sdate?vehicle.sdate:"N/A"}</TableCell>
+                  <TableCell>{vehicle.sdate ? vehicle.sdate : "N/A"}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

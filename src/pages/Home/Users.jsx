@@ -13,6 +13,7 @@ import { AuthContext } from "../../AuthContext";
 import Breadcrumb from "../../components/Breadcrumb";
 import Title from "../../components/Title";
 import { auth, db } from "../../firebase";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Users = () => {
   const classes = useStyles();
+  const history = useHistory()
 
   const { users } = useContext(AuthContext);
 
@@ -58,7 +60,7 @@ const Users = () => {
   };
 
   const handleEdit = (id) => {
-    window.location.href = "/users/edit/" + id;
+    history.push(`/users/edit/${id}`);
   };
 
   return (

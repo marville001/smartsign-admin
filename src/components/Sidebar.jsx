@@ -10,6 +10,7 @@ import React from "react";
 import AddIcon from "@material-ui/icons/Add";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import { Link } from "react-router-dom";
 
 const usestyles = makeStyles(() => ({
   root: {
@@ -25,33 +26,35 @@ const usestyles = makeStyles(() => ({
     borderBottom: "2px solid #eee",
   },
   add: {
-    width: "calc(100% - 20px)",
+    display:"block",
     margin: "10px",
+    background: "#3F51B5",
+    color:"#fff",
+    textAlign:"center",
+    padding: "10px",
+    borderRadius:"10px"
   },
   listItem: {
+    padding: " 5px 10px",
+    display:"flex"
+  },
+  listItemIcon: {
     padding: " 5px 10px",
   },
 }));
 
 const MenuItem = ({ name, icon: Icon, classes, to }) => (
-  <ListItem
-    button
-    aria-haspopup="true"
-    aria-controls="lock-menu"
-    aria-label={name}
-    href={to}
-    component="a"
-  >
-    <IconButton
-      edge="start"
-      className={classes.listItem}
-      color="inherit"
-      aria-label="menu"
-    >
-      <Icon />
-    </IconButton>
-    <ListItemText primary={name} />
-  </ListItem>
+    <Link to={to} className={classes.listItem}>
+      <IconButton
+        edge="start"
+        className={classes.listItemIcon}
+        color="inherit"
+        aria-label="menu"
+      >
+        <Icon />
+      </IconButton>
+      <ListItemText primary={name} />
+    </Link>
 );
 
 const Sidebar = ({ menuOpen }) => {
@@ -65,22 +68,42 @@ const Sidebar = ({ menuOpen }) => {
       }}
     >
       <h4 className={classes.logo}>Smart Sign</h4>
-      <Button
-        href="/users/new"
+      <Link
+        to="/users/new"
         endIcon={<AddIcon />}
         className={classes.add}
         variant="contained"
         color="primary"
       >
         Add User
-      </Button>
+      </Link>
       <List component="nav">
         <MenuItem name="Dashboard" to="/" icon={MenuIcon} classes={classes} />
         <MenuItem name="Users" to="/users" icon={MenuIcon} classes={classes} />
-        <MenuItem name="Profile" to="/users/profile" icon={AccountCircleIcon} classes={classes} />
-        <MenuItem name="Reports" to="/reports" icon={AccountCircleIcon} classes={classes} />
-        <MenuItem name="Vehicles" to="/vehicles" icon={AccountCircleIcon} classes={classes} />
-        <MenuItem name="Vehicle Signin" to="/vehicles/signin" icon={AccountCircleIcon} classes={classes} />
+        <MenuItem
+          name="Profile"
+          to="/users/profile"
+          icon={AccountCircleIcon}
+          classes={classes}
+        />
+        <MenuItem
+          name="Reports"
+          to="/reports"
+          icon={AccountCircleIcon}
+          classes={classes}
+        />
+        <MenuItem
+          name="Vehicles"
+          to="/vehicles"
+          icon={AccountCircleIcon}
+          classes={classes}
+        />
+        <MenuItem
+          name="Vehicle Signin"
+          to="/vehicles/signin"
+          icon={AccountCircleIcon}
+          classes={classes}
+        />
       </List>
     </div>
   );

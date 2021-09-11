@@ -12,7 +12,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../AuthContext";
 import Breadcrumb from "../../components/Breadcrumb";
 import Title from "../../components/Title";
-import {  db } from "../../firebase";
+import { db } from "../../firebase";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -23,6 +23,7 @@ const useStyles = makeStyles(() => ({
 const EditUser = (props) => {
   const classes = useStyles();
   const { users } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   const id = props.match.params.id;
   const user = users.filter((user) => user.id === id)[0];
@@ -38,33 +39,47 @@ const EditUser = (props) => {
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    setFName(user?.firstname);
-    setLName(user?.lastname);
-    setEmail(user?.email);
-    setIdno(user?.idNumber);
-    setRole(user?.role);
-    setDate(user?.date);
-    setActive(user?.status === "active" ? true : false);
+  useEffect(async () => {
+    // const fillInputs = () => {
+      // return new Promise((resolve, reject) => {
+      //   setTimeout(() => {
+          setFName(user?.firstname);
+          setLName(user?.lastname);
+          setEmail(user?.email);
+          setIdno(user?.idNumber);
+          setRole(user?.role);
+          setDate(user?.date);
+          setActive(user?.status === "active" ? true : false);
+    //     }, 1000);
+    //   });
+    // };
+
+    // setLoading(true);
+    // await fillInputs()
+    // setLoading(false)
+
   }, [user]);
+  console.log(user);
 
   const handleEditUser = () => {
-    let ref = db.ref(`Users/${id}/`)
-    ref.set({
-      "date": date,
-      "email":email,
-      "firstname":fName,
-      "idNumber":idno,
-      "lastname":lName,
-      "role": role,
-      "status": active ? "active" : "not active",
-
-    }).then(()=>{
-      alert("User Updated Successfully")
-    }).catch(e=>{
-      alert("An error occured")
-      setError(error)
-    })
+    let ref = db.ref(`Users/${id}/`);
+    ref
+      .set({
+        date: date,
+        email: email,
+        firstname: fName,
+        idNumber: idno,
+        lastname: lName,
+        role: role,
+        status: active ? "active" : "not active",
+      })
+      .then(() => {
+        alert("User Updated Successfully");
+      })
+      .catch((e) => {
+        alert("An error occured");
+        setError(error);
+      });
   };
 
   const showConfirmed = (msg) => {
@@ -73,8 +88,7 @@ const EditUser = (props) => {
       setConfirm("");
     }, 5000);
   };
-
-  console.log(showConfirmed);
+  if(loading) return <h2>Loading.....</h2>
   return (
     <div>
       <Breadcrumb content="New User" />

@@ -15,7 +15,7 @@ import {
   TableContainer,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../AuthContext";
 import Breadcrumb from "../../components/Breadcrumb";
 import Title from "../../components/Title";
@@ -39,15 +39,31 @@ const useStyles = makeStyles((theme) => ({
 
 const Vehicles = () => {
   const classes = useStyles();
-  const [type, setType] = useState("all");
-  const [signedIn, setSignedIn] = useState(false);
-
   const { vehicles } = useContext(AuthContext);
 
-  const handleTypeChange = (event) => {
-    setType(event.target.value);
+  const [type, setType] = useState("all");
+  const [signedIn, setSignedIn] = useState(false);
+  const [filteredVehicles, setFilteredVehicles] = useState(vehicles);
+
+  const filterVehicle = (t) => {
+    if (t === "all") {
+      return setFilteredVehicles(vehicles);
+    }
+
+    let tempVehicles = vehicles.filter((v) => {
+      return v.type === t;
+    });
+    setFilteredVehicles(tempVehicles);
   };
 
+  const handleTypeChange = (e) => {
+    setType(e.target.value);
+    filterVehicle(e.target.value);
+  };
+
+  useEffect(() => {
+    setFilteredVehicles(vehicles);
+  }, [vehicles]);
 
   return (
     <div>
@@ -64,12 +80,12 @@ const Vehicles = () => {
               value={type}
               onChange={handleTypeChange}
             >
-              <MenuItem>Select Type</MenuItem>
+              <MenuItem value="all">All</MenuItem>
               <MenuItem value={"visitor"}>Visitor</MenuItem>
               <MenuItem value={"staff"}>Staff</MenuItem>
             </Select>
           </FormControl>
-          <FormControl component="fieldset">
+          {/* <FormControl component="fieldset">
             <FormControlLabel
               control={
                 <Checkbox
@@ -80,12 +96,12 @@ const Vehicles = () => {
               }
               label="Signed In?"
             />
-          </FormControl>
+          </FormControl> */}
         </div>
         <br />
 
         <TableContainer className={classes.tcontainer}>
-          <Table  stickyHeader aria-label="sticky table">
+          <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 <TableCell>#</TableCell>
@@ -100,12 +116,12 @@ const Vehicles = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {vehicles.map((vehicle, i) => (
+              {filteredVehicles.map((vehicle, i) => (
                 <TableRow key={vehicle.id}>
                   <TableCell>{i + 1}</TableCell>
                   <TableCell>{vehicle.driverName}</TableCell>
                   <TableCell>{vehicle.driverID}</TableCell>
-                  <TableCell>Visitor</TableCell>
+                  <TableCell>{vehicle.type}</TableCell>
                   <TableCell>{vehicle.plate}</TableCell>
                   {/* <TableCell>{vehicle.make}</TableCell>
                   <TableCell>{vehicle.model}</TableCell>
