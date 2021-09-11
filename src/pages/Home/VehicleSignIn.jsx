@@ -48,8 +48,8 @@ const VehicleSignIn = () => {
 
   const handleTypeChange = (event) => {
     let type = event.target.value;
-    setVType(type)
-    filterVehicleType(type)
+    setVType(type);
+    filterVehicleType(type);
   };
 
   useEffect(() => {
@@ -68,12 +68,13 @@ const VehicleSignIn = () => {
   };
 
   const handleSignedInChange = () => {
-    const signed = !signedIn
+    const signed = !signedIn;
     setSignedIn(signed);
-    filterVehicleSigned(signed?"in":"out")
+    filterVehicleSigned(signed ? "in" : "out");
   };
 
-   const filterVehicleSigned = (status) => {
+  const filterVehicleSigned = async (status) => {
+    await filterVehicleType(vType);
     let tempVehicles = filteredVehicles.filter((v) => {
       return v.status === status;
     });
@@ -101,7 +102,7 @@ const VehicleSignIn = () => {
               <MenuItem value={"staff"}>Staff</MenuItem>
             </Select>
           </FormControl>
-          <FormControl component="fieldset">
+          {/* <FormControl component="fieldset">
             <FormControlLabel
               control={
                 <Checkbox
@@ -112,7 +113,7 @@ const VehicleSignIn = () => {
               }
               label="Signed In?"
             />
-          </FormControl>
+          </FormControl> */}
         </div>
         <br />
 
@@ -125,8 +126,8 @@ const VehicleSignIn = () => {
                 <TableCell>Driver ID</TableCell>
                 <TableCell>Type</TableCell>
                 <TableCell>Plate</TableCell>
-                <TableCell>Sign In Time</TableCell>
                 <TableCell>Status</TableCell>
+                <TableCell>Sign In Time</TableCell>
                 <TableCell>Sign out Time</TableCell>
               </TableRow>
             </TableHead>
@@ -138,8 +139,8 @@ const VehicleSignIn = () => {
                   <TableCell>{vehicle.driverID}</TableCell>
                   <TableCell>{vehicle.type}</TableCell>
                   <TableCell>{vehicle.plate}</TableCell>
-                  <TableCell>{vehicle.date}</TableCell>
                   <TableCell>{vehicle.status}</TableCell>
+                  <TableCell>{vehicle.date}</TableCell>
                   <TableCell>{vehicle.sdate ? vehicle.sdate : "N/A"}</TableCell>
                 </TableRow>
               ))}
