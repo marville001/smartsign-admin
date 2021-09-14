@@ -2,13 +2,13 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 
 
-const HorizontalBarChart = ({x=0,y=0,z=0}) => {
+const HorizontalBarChart = ({x=0,y=0,z=0, title}) => {
   const data = {
-    labels: ["Red", "Blue", "Yellow"],
+    labels: [`Total ${title}`, `Signed ${title}`],
     datasets: [
       {
-        label: "# of vehicles",
-        data: [x,y,z],
+        label: `# of ${title}`,
+        data: [x,y],
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",

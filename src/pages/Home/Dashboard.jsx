@@ -81,6 +81,8 @@ const Dashboard = () => {
   const { users, vehicles,signedVehicles } = useContext(AuthContext);
 
   const vlen = vehicles.length;
+  const svlen = signedVehicles.length;
+  const ulen = users.length;
   return (
     <div>
       <Breadcrumb content="Dashboard" />
@@ -90,7 +92,7 @@ const Dashboard = () => {
             classes={classes}
             iconColor="purple"
             title="Total Users"
-            count={users?.length}
+            count={ulen}
             CardIcon={<SupervisorAccountIcon />}
           />
 
@@ -106,14 +108,17 @@ const Dashboard = () => {
             classes={classes}
             iconColor="purple"
             title="Total Signin Today"
-            count={signedVehicles?.length}
+            count={svlen}
             CardIcon={<InputIcon />}
           />
         </div>
         <h2>Charts</h2>
         <div className={classes.charts}>
         <div>
-            <HorizontalBarChart x={4} y={7} z={10} />
+            <HorizontalBarChart title="vehicles" x={vlen} y={svlen} z={10} />
+          </div>
+          <div>
+            <HorizontalBarChart title="users" x={ulen} y={svlen} z={10} />
           </div>
           <div>
             <HorizontalBarChart />
