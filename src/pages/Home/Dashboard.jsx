@@ -5,13 +5,14 @@ import {
   IconButton,
   makeStyles,
 } from "@material-ui/core";
-import React from "react";
+import React, { useContext } from "react";
 import Breadcrumb from "../../components/Breadcrumb";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import EmojiTransportationIcon from "@material-ui/icons/EmojiTransportation";
 import InputIcon from "@material-ui/icons/Input";
 import HorizontalBarChart from "../../components/Bar";
 import PieChart from "../../components/PieChart";
+import { AuthContext } from "../../AuthContext";
 const useStyles = makeStyles(() => ({
   container: {
     padding: "20px",
@@ -41,6 +42,7 @@ const useStyles = makeStyles(() => ({
   charts: {
     margin: "10px 5px",
     display: "grid",
+    gap:20,
     gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
     gridTemplateRows: "repeat(6, 250px)",
   },
@@ -76,6 +78,9 @@ const TopCard = ({ iconColor, classes, count, title, CardIcon }) => {
 const Dashboard = () => {
   const classes = useStyles();
 
+  const { users, vehicles,signedVehicles } = useContext(AuthContext);
+
+  const vlen = vehicles.length;
   return (
     <div>
       <Breadcrumb content="Dashboard" />
@@ -85,7 +90,7 @@ const Dashboard = () => {
             classes={classes}
             iconColor="purple"
             title="Total Users"
-            count={5}
+            count={users?.length}
             CardIcon={<SupervisorAccountIcon />}
           />
 
@@ -93,7 +98,7 @@ const Dashboard = () => {
             classes={classes}
             iconColor="purple"
             title="Total Vehicles"
-            count={13}
+            count={vehicles?.length}
             CardIcon={<EmojiTransportationIcon />}
           />
 
@@ -101,18 +106,21 @@ const Dashboard = () => {
             classes={classes}
             iconColor="purple"
             title="Total Signin Today"
-            count={2}
+            count={signedVehicles?.length}
             CardIcon={<InputIcon />}
           />
         </div>
         <h2>Charts</h2>
         <div className={classes.charts}>
+        <div>
+            <HorizontalBarChart x={4} y={7} z={10} />
+          </div>
           <div>
             <HorizontalBarChart />
           </div>
-          <div>
+          {/* <div>
             <PieChart />
-          </div>
+          </div> */}
         </div>
       </Container>
     </div>
