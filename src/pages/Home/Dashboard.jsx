@@ -98,7 +98,7 @@ const Dashboard = () => {
             classes={classes}
             iconColor="purple"
             title="Total Vehicles"
-            count={vehicles?.length}
+            count={vlen}
             CardIcon={<EmojiTransportationIcon />}
           />
 
@@ -118,9 +118,9 @@ const Dashboard = () => {
           <div>
             <HorizontalBarChart />
           </div>
-          {/* <div>
+          <div>
             <PieChart />
-          </div> */}
+          </div>
         </div>
       </Container>
     </div>
