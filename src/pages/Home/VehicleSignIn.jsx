@@ -10,8 +10,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  FormControlLabel,
-  Checkbox,
+  // FormControlLabel,
+  // Checkbox,
   TableContainer,
 } from "@material-ui/core";
 import React, { useContext, useState } from "react";
@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
 
 const VehicleSignIn = () => {
   const classes = useStyles();
-  const [signedIn, setSignedIn] = useState(false);
-  const [records, setRecords] = useState([]);
+  // const [signedIn, setSignedIn] = useState(false);
+  // const [records, setRecords] = useState([]);
   const [vType, setVType] = useState("");
 
   const { signedVehicles } = useContext(AuthContext);
@@ -67,20 +67,20 @@ const VehicleSignIn = () => {
     setFilteredVehicles(tempVehicles);
   };
 
-  const handleSignedInChange = () => {
-    const signed = !signedIn;
-    setSignedIn(signed);
-    filterVehicleSigned(signed ? "in" : "out");
-  };
+  // const handleSignedInChange = () => {
+  //   const signed = !signedIn;
+  //   setSignedIn(signed);
+  //   filterVehicleSigned(signed ? "in" : "out");
+  // };
 
-  const filterVehicleSigned = async (status) => {
-    await filterVehicleType(vType);
-    let tempVehicles = filteredVehicles.filter((v) => {
-      return v.status === status;
-    });
+  // const filterVehicleSigned = async (status) => {
+  //   await filterVehicleType(vType);
+  //   let tempVehicles = filteredVehicles.filter((v) => {
+  //     return v.status === status;
+  //   });
 
-    setFilteredVehicles(tempVehicles);
-  };
+  //   setFilteredVehicles(tempVehicles);
+  // };
 
   return (
     <div>

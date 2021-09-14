@@ -39,27 +39,18 @@ const EditUser = (props) => {
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
 
-  useEffect(async () => {
-    // const fillInputs = () => {
-      // return new Promise((resolve, reject) => {
-      //   setTimeout(() => {
-          setFName(user?.firstname);
-          setLName(user?.lastname);
-          setEmail(user?.email);
-          setIdno(user?.idNumber);
-          setRole(user?.role);
-          setDate(user?.date);
-          setActive(user?.status === "active" ? true : false);
-    //     }, 1000);
-    //   });
-    // };
+  console.log(setLoading);
 
-    // setLoading(true);
-    // await fillInputs()
-    // setLoading(false)
 
+  useEffect(() => {
+    setFName(user?.firstname);
+    setLName(user?.lastname);
+    setEmail(user?.email);
+    setIdno(user?.idNumber);
+    setRole(user?.role);
+    setDate(user?.date);
+    setActive(user?.status === "active" ? true : false);
   }, [user]);
-  console.log(user);
 
   const handleEditUser = () => {
     let ref = db.ref(`Users/${id}/`);
@@ -88,7 +79,8 @@ const EditUser = (props) => {
       setConfirm("");
     }, 5000);
   };
-  if(loading) return <h2>Loading.....</h2>
+  console.log(showConfirmed);
+  if (loading) return <h2>Loading.....</h2>;
   return (
     <div>
       <Breadcrumb content="New User" />

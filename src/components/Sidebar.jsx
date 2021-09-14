@@ -1,8 +1,6 @@
 import {
-  Button,
   IconButton,
   List,
-  ListItem,
   ListItemText,
   makeStyles,
 } from "@material-ui/core";
@@ -86,12 +84,12 @@ const Sidebar = ({ menuOpen }) => {
           icon={AccountCircleIcon}
           classes={classes}
         />
-        <MenuItem
+        {/* <MenuItem
           name="Reports"
           to="/reports"
           icon={AccountCircleIcon}
           classes={classes}
-        />
+        /> */}
         <MenuItem
           name="Vehicles"
           to="/vehicles"

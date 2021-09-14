@@ -10,8 +10,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  FormControlLabel,
-  Checkbox,
+  // FormControlLabel,
+  // Checkbox,
   TableContainer,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -42,7 +42,7 @@ const Vehicles = () => {
   const { vehicles } = useContext(AuthContext);
 
   const [type, setType] = useState("all");
-  const [signedIn, setSignedIn] = useState(false);
+  // const [signedIn, setSignedIn] = useState(false);
   const [filteredVehicles, setFilteredVehicles] = useState(vehicles);
 
   const filterVehicle = (t) => {
