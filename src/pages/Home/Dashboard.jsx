@@ -11,8 +11,8 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import EmojiTransportationIcon from "@material-ui/icons/EmojiTransportation";
 import InputIcon from "@material-ui/icons/Input";
 import HorizontalBarChart from "../../components/Bar";
-import PieChart from "../../components/PieChart";
 import { AuthContext } from "../../AuthContext";
+import UsersBarChart from "../../components/UsersBarChart";
 const useStyles = makeStyles(() => ({
   container: {
     padding: "20px",
@@ -83,6 +83,9 @@ const Dashboard = () => {
   const vlen = vehicles.length;
   const svlen = signedVehicles.length;
   const ulen = users.length;
+
+  const activeUsers = users.filter((user) => user.status === 'active');
+  const inactiveUsers = users.filter((user) => user.status === 'not active');
   return (
     <div>
       <Breadcrumb content="Dashboard" />
@@ -115,16 +118,10 @@ const Dashboard = () => {
         <h2>Charts</h2>
         <div className={classes.charts}>
         <div>
-            <HorizontalBarChart title="vehicles" x={vlen} y={svlen} z={10} />
+            <HorizontalBarChart x={vlen} y={svlen} z={10} />
           </div>
           <div>
-            <HorizontalBarChart title="users" x={ulen} y={svlen} z={10} />
-          </div>
-          <div>
-            <HorizontalBarChart />
-          </div>
-          <div>
-            <PieChart />
+            <UsersBarChart x={ulen} y={activeUsers.length} z={inactiveUsers.length} />
           </div>
         </div>
       </Container>
